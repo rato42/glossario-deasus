@@ -429,7 +429,7 @@ function renderAll() {
         ${t.categoria ? `<span class="entry-cat" style="${c ? `color:${c.color}` : ''}">${esc(t.categoria)}</span>` : ''}
         ${t.documento ? `<span class="entry-doc">${esc(t.documento)}</span>` : ''}
       </div>
-      <div class="entry-def">${esc(t.definicao)}</div>
+      <div class="entry-def">${render(t.definicao)}</div>
       ${t.nota ? `<div class="entry-note">${esc(t.nota)}</div>` : ''}
     `;
     glossary.appendChild(el);
@@ -513,6 +513,12 @@ function setStatus(state, msg) {
 function esc(str) {
   return String(str)
     .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function render(str) {
+  return esc(str)
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g, '<em>$1</em>');
 }
 
 loadSheet();
