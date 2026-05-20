@@ -457,6 +457,9 @@ async function loadSheet() {
     buildDocFilters();
     buildCatFilters();
     renderAll();
+    const availableDocs = [...new Set(allTerms.map(t => t.documento).filter(Boolean))];
+    const availableCats = [...new Set(allTerms.map(t => t.categoria).filter(Boolean))];
+    restoreState(availableDocs, availableCats);
   } catch (e) {
     setStatus('error', 'Erro ao carregar planilha — ' + e.message);
     document.getElementById('loading-panel').classList.add('hidden');
@@ -525,6 +528,40 @@ function buildCatFilters() {
   });
 }
 
+// --- PERSISTÊNCIA ---
+const LS_KEY = 'deasus_glossario_filtros';
+
+function saveState() {
+  try {
+    localStorage.setItem(LS_KEY, JSON.stringify({
+      doc: activeDocs.size > 0 ? [...activeDocs][0] : '',
+      cat: activeCat,
+    }));
+  } catch(e) {}
+}
+
+function restoreState(availableDocs, availableCats) {
+  try {
+    const saved = JSON.parse(localStorage.getItem(LS_KEY) || '{}');
+
+    // restaura documento — só se ainda existir na planilha
+    if (saved.doc && availableDocs.includes(saved.doc)) {
+      const btn = document.querySelector(`.doc-btn[data-doc="${CSS.escape(saved.doc)}"]`);
+      if (btn) {
+        activeDocs.add(saved.doc);
+        btn.classList.add('active');
+        updateActiveDocBar();
+      }
+    }
+
+    // restaura categoria — só se ainda existir na planilha
+    if (saved.cat && availableCats.includes(saved.cat)) {
+      const btn = document.querySelector(`.filter-btn[data-cat="${CSS.escape(saved.cat)}"]`);
+      if (btn) setCat(saved.cat, btn);
+    }
+  } catch(e) {}
+}
+
 function toggleDoc(doc, btn) {
   if (activeDocs.has(doc)) {
     activeDocs.clear();
@@ -537,6 +574,7 @@ function toggleDoc(doc, btn) {
   }
   updateActiveDocBar();
   applyFilters();
+  saveState();
 }
 
 function clearDocFilter() {
@@ -544,6 +582,7 @@ function clearDocFilter() {
   document.querySelectorAll('.doc-btn').forEach(b => b.classList.remove('active'));
   updateActiveDocBar();
   applyFilters();
+  saveState();
 }
 
 function updateActiveDocBar() {
@@ -575,6 +614,7 @@ function setCat(cat, btn) {
     btn.style.background = btn.dataset.bgColor;
   }
   applyFilters();
+  saveState();
 }
 
 function renderAll() {
