@@ -516,9 +516,11 @@ function buildDocFilters() {
 
 function toggleDoc(doc, btn) {
   if (activeDocs.has(doc)) {
-    activeDocs.delete(doc);
+    activeDocs.clear();
     btn.classList.remove('active');
   } else {
+    activeDocs.clear();
+    document.querySelectorAll('.doc-btn').forEach(b => b.classList.remove('active'));
     activeDocs.add(doc);
     btn.classList.add('active');
   }
