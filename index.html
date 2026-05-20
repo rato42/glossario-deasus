@@ -11,8 +11,6 @@
     --bg: #F5F2EB;
     --ink: #1A1A18;
     --accent: #C84B2F;
-    --accent2: #2B5E4E;
-    --accent3: #3A5A8C;
     --muted: #888880;
     --card: #FEFCF7;
     --border: #D8D4CB;
@@ -128,7 +126,6 @@
     gap: 10px;
     align-items: center;
     flex-wrap: wrap;
-    background: var(--bg);
   }
 
   .doc-bar.has-docs { display: flex; }
@@ -207,9 +204,6 @@
 
   .filter-btn:hover { border-color: var(--ink); color: var(--ink); }
   .filter-btn.active { border-color: var(--ink); color: var(--ink); background: var(--tag-bg); }
-  .filter-btn.cat-estrutura.active { border-color: var(--accent); color: var(--accent); background: #fdf0ed; }
-  .filter-btn.cat-processo.active { border-color: var(--accent2); color: var(--accent2); background: #edf5f2; }
-  .filter-btn.cat-sistemas.active { border-color: var(--accent3); color: var(--accent3); background: #edf2f9; }
 
   .divider {
     width: 1px;
@@ -315,12 +309,7 @@
     font-size: 0.6rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--muted);
   }
-
-  .entry-cat.estrutura { color: var(--accent); }
-  .entry-cat.processo { color: var(--accent2); }
-  .entry-cat.sistemas { color: var(--accent3); }
 
   .entry-doc {
     font-family: 'IBM Plex Mono', monospace;
@@ -383,27 +372,21 @@
   </div>
 </header>
 
-<!-- faixa que aparece quando um DO está selecionado -->
 <div class="active-doc-bar" id="active-doc-bar">
   <div class="active-doc-label" id="active-doc-label"></div>
   <button class="active-doc-clear" onclick="clearDocFilter()">Limpar filtro ×</button>
 </div>
 
-<!-- filtros de documento (aparecem só se houver > 1 documento) -->
 <div class="doc-bar" id="doc-bar">
   <span class="doc-bar-label">Documento</span>
-  <div id="doc-filters"></div>
+  <div id="doc-filters" style="display:flex;gap:8px;flex-wrap:wrap;"></div>
 </div>
 
-<!-- busca + filtros de categoria -->
 <div class="toolbar">
   <input type="text" id="search" placeholder="Buscar termo, sigla ou palavra-chave..." oninput="applyFilters()">
   <div class="divider"></div>
-  <div class="filter-group">
+  <div class="filter-group" id="cat-filters">
     <button class="filter-btn active" data-cat="" onclick="setCat('', this)">Todos</button>
-    <button class="filter-btn cat-estrutura" data-cat="estrutura" onclick="setCat('estrutura', this)">Estrutura</button>
-    <button class="filter-btn cat-processo" data-cat="processo" onclick="setCat('processo', this)">Processo</button>
-    <button class="filter-btn cat-sistemas" data-cat="sistemas" onclick="setCat('sistemas', this)">Sistemas</button>
   </div>
   <span class="count" id="count"></span>
 </div>
@@ -425,6 +408,18 @@
 <script>
 const SHEET_ID = '14BP2-qAtQOPuTXtsfCAkvKmAi-2290uPF1n1p8UG4hU';
 const CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=0`;
+
+const CAT_COLORS = [
+  { border: '#C84B2F', color: '#C84B2F', bg: '#fdf0ed' },
+  { border: '#2B5E4E', color: '#2B5E4E', bg: '#edf5f2' },
+  { border: '#3A5A8C', color: '#3A5A8C', bg: '#edf2f9' },
+  { border: '#7A4E8C', color: '#7A4E8C', bg: '#f5edf9' },
+  { border: '#8C7A2B', color: '#8C7A2B', bg: '#f9f5ed' },
+  { border: '#2B7A6E', color: '#2B7A6E', bg: '#edf5f4' },
+];
+
+// mapa categoria -> cor, preenchido em buildCatFilters
+const catColorMap = {};
 
 let allTerms = [];
 let activeCat = '';
@@ -460,6 +455,7 @@ async function loadSheet() {
 
     setStatus('ok', `${allTerms.length} termos carregados`);
     buildDocFilters();
+    buildCatFilters();
     renderAll();
   } catch (e) {
     setStatus('error', 'Erro ao carregar planilha — ' + e.message);
@@ -496,13 +492,8 @@ function buildDocFilters() {
   const docs = [...new Set(allTerms.map(t => t.documento).filter(Boolean))].sort();
   if (docs.length <= 1) return;
 
-  const bar = document.getElementById('doc-bar');
-  bar.classList.add('has-docs');
-
+  document.getElementById('doc-bar').classList.add('has-docs');
   const container = document.getElementById('doc-filters');
-  container.style.display = 'flex';
-  container.style.gap = '8px';
-  container.style.flexWrap = 'wrap';
 
   docs.forEach(doc => {
     const btn = document.createElement('button');
@@ -510,6 +501,26 @@ function buildDocFilters() {
     btn.textContent = doc;
     btn.dataset.doc = doc;
     btn.onclick = () => toggleDoc(doc, btn);
+    container.appendChild(btn);
+  });
+}
+
+function buildCatFilters() {
+  const cats = [...new Set(allTerms.map(t => t.categoria).filter(Boolean))].sort();
+  const container = document.getElementById('cat-filters');
+
+  cats.forEach((cat, i) => {
+    const c = CAT_COLORS[i % CAT_COLORS.length];
+    catColorMap[cat] = c;
+
+    const btn = document.createElement('button');
+    btn.className = 'filter-btn';
+    btn.textContent = cat;
+    btn.dataset.cat = cat;
+    btn.dataset.borderColor = c.border;
+    btn.dataset.textColor = c.color;
+    btn.dataset.bgColor = c.bg;
+    btn.onclick = () => setCat(cat, btn);
     container.appendChild(btn);
   });
 }
@@ -551,8 +562,18 @@ function updateActiveDocBar() {
 
 function setCat(cat, btn) {
   activeCat = cat;
-  document.querySelectorAll('.filter-btn[data-cat]').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.filter-btn[data-cat]').forEach(b => {
+    b.classList.remove('active');
+    b.style.borderColor = '';
+    b.style.color = '';
+    b.style.background = '';
+  });
   btn.classList.add('active');
+  if (btn.dataset.borderColor) {
+    btn.style.borderColor = btn.dataset.borderColor;
+    btn.style.color = btn.dataset.textColor;
+    btn.style.background = btn.dataset.bgColor;
+  }
   applyFilters();
 }
 
@@ -562,6 +583,7 @@ function renderAll() {
   document.getElementById('loading-panel').classList.add('hidden');
 
   allTerms.forEach((t, i) => {
+    const c = catColorMap[t.categoria] || null;
     const el = document.createElement('div');
     el.className = 'entry';
     el.dataset.cat = t.categoria;
@@ -574,7 +596,7 @@ function renderAll() {
         ${t.sigla ? `<span class="entry-abbr">${esc(t.sigla)}</span>` : ''}
       </div>
       <div class="entry-meta">
-        ${t.categoria ? `<span class="entry-cat ${t.categoria}">${esc(t.categoria)}</span>` : ''}
+        ${t.categoria ? `<span class="entry-cat" style="${c ? `color:${c.color}` : ''}">${esc(t.categoria)}</span>` : ''}
         ${t.documento ? `<span class="entry-doc">${esc(t.documento)}</span>` : ''}
       </div>
       <div class="entry-def">${esc(t.definicao)}</div>
