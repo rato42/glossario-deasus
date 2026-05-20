@@ -8,258 +8,150 @@
   @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,300;0,400;1,300&display=swap');
 
   :root {
-    --bg: #F5F2EB;
-    --ink: #1A1A18;
-    --accent: #C84B2F;
-    --muted: #888880;
-    --card: #FEFCF7;
-    --border: #D8D4CB;
-    --tag-bg: #E8E3D8;
+    --bg: #F5F2EB; --ink: #1A1A18; --accent: #C84B2F;
+    --muted: #888880; --card: #FEFCF7; --border: #D8D4CB; --tag-bg: #E8E3D8;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
-    background: var(--bg);
-    color: var(--ink);
-    font-family: 'IBM Plex Sans', sans-serif;
-    font-weight: 300;
-    line-height: 1.6;
-    padding: 0 0 80px;
+    background: var(--bg); color: var(--ink);
+    font-family: 'IBM Plex Sans', sans-serif; font-weight: 300;
+    line-height: 1.6; padding: 0 0 80px;
   }
 
-  /* HEADER */
   header {
-    border-bottom: 2px solid var(--ink);
-    padding: 40px 48px 28px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    gap: 24px;
+    border-bottom: 2px solid var(--ink); padding: 40px 48px 28px;
+    display: flex; justify-content: space-between; align-items: flex-end; gap: 24px;
   }
 
   .header-left h1 {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: clamp(2rem, 5vw, 3.2rem);
-    line-height: 1;
-    letter-spacing: -1px;
+    font-family: 'Syne', sans-serif; font-weight: 800;
+    font-size: clamp(2rem, 5vw, 3.2rem); line-height: 1; letter-spacing: -1px;
   }
 
   .header-left h1 span { color: var(--accent); }
 
   .header-sub {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.72rem;
-    color: var(--muted);
-    margin-top: 10px;
-    letter-spacing: 0.05em;
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem;
+    color: var(--muted); margin-top: 10px; letter-spacing: 0.05em;
   }
 
   .header-right {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.7rem;
-    color: var(--muted);
-    text-align: right;
-    line-height: 1.8;
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem;
+    color: var(--muted); text-align: right; line-height: 1.8;
   }
 
-  /* FAIXA DO DOCUMENTO ATIVO */
   .active-doc-bar {
-    overflow: hidden;
-    max-height: 0;
-    background: var(--ink);
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    padding: 0 48px;
+    overflow: hidden; max-height: 0; background: var(--ink);
+    display: flex; align-items: center; gap: 16px; padding: 0 48px;
     transition: max-height 0.25s ease, padding-top 0.25s, padding-bottom 0.25s;
   }
 
-  .active-doc-bar.visible {
-    max-height: 60px;
-    padding: 14px 48px;
-  }
+  .active-doc-bar.visible { max-height: 60px; padding: 14px 48px; }
 
   .active-doc-label {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: 1.15rem;
-    color: #fff;
-    letter-spacing: -0.5px;
-    flex: 1;
+    font-family: 'Syne', sans-serif; font-weight: 800;
+    font-size: 1.15rem; color: #fff; letter-spacing: -0.5px; flex: 1;
   }
 
   .active-doc-label span {
-    display: inline-block;
-    font-family: 'IBM Plex Mono', monospace;
-    font-weight: 400;
-    font-size: 0.65rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: rgba(255,255,255,0.4);
-    margin-right: 10px;
-    vertical-align: middle;
+    display: inline-block; font-family: 'IBM Plex Mono', monospace;
+    font-weight: 400; font-size: 0.65rem; letter-spacing: 0.1em;
+    text-transform: uppercase; color: rgba(255,255,255,0.4);
+    margin-right: 10px; vertical-align: middle;
   }
 
   .active-doc-clear {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.68rem;
-    color: rgba(255,255,255,0.5);
-    background: none;
-    border: 1px solid rgba(255,255,255,0.2);
-    padding: 5px 12px;
-    cursor: pointer;
-    letter-spacing: 0.06em;
-    transition: all 0.15s;
-    white-space: nowrap;
-    flex-shrink: 0;
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem;
+    color: rgba(255,255,255,0.5); background: none;
+    border: 1px solid rgba(255,255,255,0.2); padding: 5px 12px;
+    cursor: pointer; letter-spacing: 0.06em; transition: all 0.15s;
+    white-space: nowrap; flex-shrink: 0;
   }
 
   .active-doc-clear:hover { color: #fff; border-color: rgba(255,255,255,0.7); }
 
-  /* BARRA DE DOCUMENTOS */
   .doc-bar {
-    padding: 14px 48px;
-    border-bottom: 1px solid var(--border);
-    display: none;
-    gap: 10px;
-    align-items: center;
-    flex-wrap: wrap;
+    padding: 14px 48px; border-bottom: 1px solid var(--border);
+    display: none; gap: 10px; align-items: center; flex-wrap: wrap;
   }
 
   .doc-bar.has-docs { display: flex; }
 
   .doc-bar-label {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.62rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--muted);
-    white-space: nowrap;
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--muted); white-space: nowrap;
   }
 
   .doc-btn {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.75rem;
-    letter-spacing: 0.03em;
-    padding: 7px 16px;
-    border: 1.5px solid var(--border);
-    background: var(--card);
-    cursor: pointer;
-    color: var(--ink);
-    transition: all 0.15s;
-    white-space: nowrap;
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem;
+    letter-spacing: 0.03em; padding: 7px 16px;
+    border: 1.5px solid var(--border); background: var(--card);
+    cursor: pointer; color: var(--ink); transition: all 0.15s; white-space: nowrap;
   }
 
   .doc-btn:hover { border-color: var(--ink); background: var(--tag-bg); }
   .doc-btn.active { border-color: var(--ink); background: var(--ink); color: var(--bg); }
 
-  /* TOOLBAR */
   .toolbar {
-    padding: 18px 48px;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    gap: 12px;
-    align-items: center;
-    flex-wrap: wrap;
+    padding: 18px 48px; border-bottom: 1px solid var(--border);
+    display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
   }
 
   .toolbar input {
-    flex: 1;
-    min-width: 200px;
-    border: 1.5px solid var(--border);
-    background: var(--card);
-    padding: 10px 16px;
-    font-family: 'IBM Plex Sans', sans-serif;
-    font-size: 0.9rem;
-    font-weight: 300;
-    color: var(--ink);
-    outline: none;
-    transition: border-color 0.15s;
+    flex: 1; min-width: 200px; border: 1.5px solid var(--border);
+    background: var(--card); padding: 10px 16px;
+    font-family: 'IBM Plex Sans', sans-serif; font-size: 0.9rem;
+    font-weight: 300; color: var(--ink); outline: none; transition: border-color 0.15s;
   }
 
   .toolbar input:focus { border-color: var(--accent); }
   .toolbar input::placeholder { color: var(--muted); }
 
-  .filter-group {
-    display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
-  }
+  .filter-group { display: flex; gap: 6px; flex-wrap: wrap; }
 
   .filter-btn {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.06em;
-    padding: 6px 11px;
-    border: 1.5px solid var(--border);
-    background: transparent;
-    cursor: pointer;
-    color: var(--muted);
-    transition: all 0.15s;
-    text-transform: uppercase;
-    white-space: nowrap;
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem;
+    letter-spacing: 0.06em; padding: 6px 11px;
+    border: 1.5px solid var(--border); background: transparent;
+    cursor: pointer; color: var(--muted); transition: all 0.15s;
+    text-transform: uppercase; white-space: nowrap;
   }
 
   .filter-btn:hover { border-color: var(--ink); color: var(--ink); }
   .filter-btn.active { border-color: var(--ink); color: var(--ink); background: var(--tag-bg); }
 
-  .divider {
-    width: 1px;
-    height: 28px;
-    background: var(--border);
-    flex-shrink: 0;
-  }
+  .divider { width: 1px; height: 28px; background: var(--border); flex-shrink: 0; }
 
   .count {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.7rem;
-    color: var(--muted);
-    white-space: nowrap;
-    margin-left: auto;
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem;
+    color: var(--muted); white-space: nowrap; margin-left: auto;
   }
 
-  /* STATUS */
   .status-bar {
-    padding: 10px 48px;
-    border-bottom: 1px solid var(--border);
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.68rem;
-    color: var(--muted);
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    padding: 10px 48px; border-bottom: 1px solid var(--border);
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem;
+    color: var(--muted); display: flex; align-items: center; gap: 8px;
   }
 
-  .status-dot {
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: var(--muted);
-    flex-shrink: 0;
-  }
-
+  .status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--muted); flex-shrink: 0; }
   .status-dot.ok { background: #2B5E4E; }
   .status-dot.error { background: var(--accent); }
   .status-dot.loading { background: #aaa; animation: pulse 1s infinite; }
 
   @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
 
-  /* GLOSSARY GRID */
   .glossary {
     padding: 0 48px;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-    gap: 1px;
-    background: var(--border);
-    border-top: 1px solid var(--border);
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1px; background: var(--border); border-top: 1px solid var(--border);
   }
 
   .entry {
-    background: var(--card);
-    padding: 28px 28px 24px;
-    transition: background 0.1s;
-    animation: fadeIn 0.2s ease both;
+    background: var(--card); padding: 28px 28px 24px;
+    transition: background 0.1s; animation: fadeIn 0.2s ease both;
   }
 
   @keyframes fadeIn { from { opacity:0; transform:translateY(4px); } to { opacity:1; transform:none; } }
@@ -267,85 +159,36 @@
   .entry:hover { background: #fff; }
   .entry.hidden { display: none; }
 
-  .entry-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 12px;
-    margin-bottom: 6px;
-  }
+  .entry-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 6px; }
 
-  .entry-term {
-    font-family: 'Syne', sans-serif;
-    font-weight: 600;
-    font-size: 1.02rem;
-    line-height: 1.2;
-    flex: 1;
-  }
+  .entry-term { font-family: 'Syne', sans-serif; font-weight: 600; font-size: 1.02rem; line-height: 1.2; flex: 1; }
 
   .entry-abbr {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.68rem;
-    font-weight: 500;
-    background: var(--ink);
-    color: var(--bg);
-    padding: 3px 8px;
-    letter-spacing: 0.04em;
-    white-space: nowrap;
-    margin-top: 2px;
-    flex-shrink: 0;
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; font-weight: 500;
+    background: var(--ink); color: var(--bg); padding: 3px 8px;
+    letter-spacing: 0.04em; white-space: nowrap; margin-top: 2px; flex-shrink: 0;
   }
 
-  .entry-meta {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    margin-bottom: 10px;
-    flex-wrap: wrap;
-  }
+  .entry-meta { display: flex; gap: 8px; align-items: center; margin-bottom: 10px; flex-wrap: wrap; }
 
-  .entry-cat {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.6rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-  }
+  .entry-cat { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; }
 
   .entry-doc {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.6rem;
-    letter-spacing: 0.06em;
-    color: var(--muted);
-    background: var(--tag-bg);
-    padding: 2px 6px;
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem;
+    letter-spacing: 0.06em; color: var(--muted); background: var(--tag-bg); padding: 2px 6px;
   }
 
-  .entry-def {
-    font-size: 0.875rem;
-    line-height: 1.65;
-    color: #3A3A36;
-  }
+  .entry-def { font-size: 0.875rem; line-height: 1.65; color: #3A3A36; }
 
   .entry-note {
-    margin-top: 10px;
-    padding: 10px 12px;
-    background: var(--tag-bg);
-    border-left: 2px solid var(--border);
-    font-size: 0.78rem;
-    color: var(--muted);
-    font-style: italic;
-    line-height: 1.55;
+    margin-top: 10px; padding: 10px 12px; background: var(--tag-bg);
+    border-left: 2px solid var(--border); font-size: 0.78rem;
+    color: var(--muted); font-style: italic; line-height: 1.55;
   }
 
   .state-panel {
-    grid-column: 1/-1;
-    padding: 60px 48px;
-    text-align: center;
-    background: var(--card);
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.82rem;
-    color: var(--muted);
-    line-height: 2.2;
+    grid-column: 1/-1; padding: 60px 48px; text-align: center; background: var(--card);
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.82rem; color: var(--muted); line-height: 2.2;
   }
 
   .state-panel.hidden { display: none; }
@@ -353,9 +196,7 @@
   @media (max-width: 700px) {
     header { padding: 24px 20px 20px; flex-direction: column; align-items: flex-start; }
     .active-doc-bar.visible { padding: 12px 20px; }
-    .doc-bar { padding: 12px 20px; }
-    .toolbar { padding: 14px 20px; }
-    .status-bar { padding: 8px 20px; }
+    .doc-bar, .toolbar, .status-bar { padding: 12px 20px; }
     .glossary { padding: 0 20px; }
   }
 </style>
@@ -367,9 +208,7 @@
     <h1>Glossário<br><span>DEASUS</span></h1>
     <p class="header-sub">Documentos Orientadores · SES/RS</p>
   </div>
-  <div class="header-right">
-    Para auditores<br>que preferem<br>ir direto ao ponto.
-  </div>
+  <div class="header-right">Para auditores<br>que preferem<br>ir direto ao ponto.</div>
 </header>
 
 <div class="active-doc-bar" id="active-doc-bar">
@@ -408,6 +247,7 @@
 <script>
 const SHEET_ID = '14BP2-qAtQOPuTXtsfCAkvKmAi-2290uPF1n1p8UG4hU';
 const CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=0`;
+const LS_KEY = 'deasus_glossario_filtros';
 
 const CAT_COLORS = [
   { border: '#C84B2F', color: '#C84B2F', bg: '#fdf0ed' },
@@ -418,13 +258,12 @@ const CAT_COLORS = [
   { border: '#2B7A6E', color: '#2B7A6E', bg: '#edf5f4' },
 ];
 
-// mapa categoria -> cor, preenchido em buildCatFilters
 const catColorMap = {};
-
 let allTerms = [];
 let activeCat = '';
 let activeDocs = new Set();
 
+// --- CARREGAR ---
 async function loadSheet() {
   try {
     const res = await fetch(CSV_URL);
@@ -436,7 +275,6 @@ async function loadSheet() {
     const headers = rows[0].map(h =>
       h.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
     );
-
     const col = k => headers.indexOf(k);
     const defIdx = col('definicao') !== -1 ? col('definicao') :
                    col('defini')    !== -1 ? col('defini')    : 4;
@@ -456,7 +294,7 @@ async function loadSheet() {
     setStatus('ok', `${allTerms.length} termos carregados`);
     buildDocFilters();
     buildCatFilters();
-    renderAll();
+    renderAll(); // renderAll chama restoreState e applyFilters no final
   } catch (e) {
     setStatus('error', 'Erro ao carregar planilha — ' + e.message);
     document.getElementById('loading-panel').classList.add('hidden');
@@ -464,6 +302,7 @@ async function loadSheet() {
   }
 }
 
+// --- CSV PARSER ---
 function parseCSV(text) {
   const rows = [];
   const lines = text.split(/\r?\n/);
@@ -478,9 +317,7 @@ function parseCSV(text) {
         else inQ = !inQ;
       } else if (c === ',' && !inQ) {
         cols.push(cur); cur = '';
-      } else {
-        cur += c;
-      }
+      } else { cur += c; }
     }
     cols.push(cur);
     rows.push(cols);
@@ -488,13 +325,12 @@ function parseCSV(text) {
   return rows;
 }
 
+// --- FILTROS ---
 function buildDocFilters() {
   const docs = [...new Set(allTerms.map(t => t.documento).filter(Boolean))].sort();
   if (docs.length <= 1) return;
-
   document.getElementById('doc-bar').classList.add('has-docs');
   const container = document.getElementById('doc-filters');
-
   docs.forEach(doc => {
     const btn = document.createElement('button');
     btn.className = 'doc-btn';
@@ -508,11 +344,9 @@ function buildDocFilters() {
 function buildCatFilters() {
   const cats = [...new Set(allTerms.map(t => t.categoria).filter(Boolean))].sort();
   const container = document.getElementById('cat-filters');
-
   cats.forEach((cat, i) => {
     const c = CAT_COLORS[i % CAT_COLORS.length];
     catColorMap[cat] = c;
-
     const btn = document.createElement('button');
     btn.className = 'filter-btn';
     btn.textContent = cat;
@@ -523,61 +357,6 @@ function buildCatFilters() {
     btn.onclick = () => setCat(cat, btn);
     container.appendChild(btn);
   });
-}
-
-// --- PERSISTÊNCIA ---
-const LS_KEY = 'deasus_glossario_filtros';
-
-function saveState() {
-  try {
-    localStorage.setItem(LS_KEY, JSON.stringify({
-      doc: activeDocs.size > 0 ? [...activeDocs][0] : '',
-      cat: activeCat,
-    }));
-  } catch(e) {}
-}
-
-function restoreState(availableDocs, availableCats) {
-  try {
-    const saved = JSON.parse(localStorage.getItem(LS_KEY) || '{}');
-    let changed = false;
-
-    // restaura documento — só se ainda existir na planilha
-    if (saved.doc && availableDocs.includes(saved.doc)) {
-      const btn = document.querySelector(`.doc-btn[data-doc="${CSS.escape(saved.doc)}"]`);
-      if (btn) {
-        activeDocs.add(saved.doc);
-        btn.classList.add('active');
-        updateActiveDocBar();
-        changed = true;
-      }
-    }
-
-    // restaura categoria — só se ainda existir na planilha
-    if (saved.cat && availableCats.includes(saved.cat)) {
-      const btn = document.querySelector(`.filter-btn[data-cat="${CSS.escape(saved.cat)}"]`);
-      if (btn) {
-        // seta activeCat diretamente sem chamar applyFilters ainda
-        activeCat = saved.cat;
-        document.querySelectorAll('.filter-btn[data-cat]').forEach(b => {
-          b.classList.remove('active');
-          b.style.borderColor = '';
-          b.style.color = '';
-          b.style.background = '';
-        });
-        btn.classList.add('active');
-        if (btn.dataset.borderColor) {
-          btn.style.borderColor = btn.dataset.borderColor;
-          btn.style.color = btn.dataset.textColor;
-          btn.style.background = btn.dataset.bgColor;
-        }
-        changed = true;
-      }
-    }
-
-    // aplica tudo de uma vez só no final
-    if (changed) applyFilters();
-  } catch(e) {}
 }
 
 function toggleDoc(doc, btn) {
@@ -591,29 +370,23 @@ function toggleDoc(doc, btn) {
     btn.classList.add('active');
   }
   updateActiveDocBar();
-  applyFilters();
   saveState();
+  applyFilters();
 }
 
 function clearDocFilter() {
   activeDocs.clear();
   document.querySelectorAll('.doc-btn').forEach(b => b.classList.remove('active'));
   updateActiveDocBar();
-  applyFilters();
   saveState();
+  applyFilters();
 }
 
 function updateActiveDocBar() {
   const bar = document.getElementById('active-doc-bar');
   const label = document.getElementById('active-doc-label');
-
-  if (activeDocs.size === 0) {
-    bar.classList.remove('visible');
-    return;
-  }
-
-  const names = [...activeDocs].join(' · ');
-  label.innerHTML = `<span>Filtrando por</span>${esc(names)}`;
+  if (activeDocs.size === 0) { bar.classList.remove('visible'); return; }
+  label.innerHTML = `<span>Filtrando por</span>${esc([...activeDocs].join(' · '))}`;
   bar.classList.add('visible');
 }
 
@@ -621,9 +394,7 @@ function setCat(cat, btn) {
   activeCat = cat;
   document.querySelectorAll('.filter-btn[data-cat]').forEach(b => {
     b.classList.remove('active');
-    b.style.borderColor = '';
-    b.style.color = '';
-    b.style.background = '';
+    b.style.borderColor = b.style.color = b.style.background = '';
   });
   btn.classList.add('active');
   if (btn.dataset.borderColor) {
@@ -631,10 +402,11 @@ function setCat(cat, btn) {
     btn.style.color = btn.dataset.textColor;
     btn.style.background = btn.dataset.bgColor;
   }
-  applyFilters();
   saveState();
+  applyFilters();
 }
 
+// --- RENDER ---
 function renderAll() {
   const glossary = document.getElementById('glossary');
   glossary.querySelectorAll('.entry').forEach(e => e.remove());
@@ -663,33 +435,76 @@ function renderAll() {
     glossary.appendChild(el);
   });
 
-  const availableDocs = [...new Set(allTerms.map(t => t.documento).filter(Boolean))];
-  const availableCats = [...new Set(allTerms.map(t => t.categoria).filter(Boolean))];
-  restoreState(availableDocs, availableCats);
+  // entradas já estão no DOM — restaura estado salvo e aplica filtros
+  restoreState();
 }
 
 function applyFilters() {
   const q = document.getElementById('search').value.toLowerCase().trim();
-  const entries = document.querySelectorAll('.entry');
   let visible = 0;
-
-  entries.forEach(e => {
+  document.querySelectorAll('.entry').forEach(e => {
     const catOk = !activeCat || e.dataset.cat === activeCat;
     const docOk = activeDocs.size === 0 || activeDocs.has(e.dataset.doc);
     const textOk = !q || e.dataset.search.includes(q);
-    if (catOk && docOk && textOk) {
-      e.classList.remove('hidden');
-      visible++;
-    } else {
-      e.classList.add('hidden');
-    }
+    const show = catOk && docOk && textOk;
+    e.classList.toggle('hidden', !show);
+    if (show) visible++;
   });
-
   document.getElementById('count').textContent = `${visible} termo${visible !== 1 ? 's' : ''}`;
-  const empty = document.getElementById('empty-panel');
-  empty.classList.toggle('hidden', visible > 0 || allTerms.length === 0);
+  document.getElementById('empty-panel').classList.toggle('hidden', visible > 0 || allTerms.length === 0);
 }
 
+// --- PERSISTÊNCIA ---
+function saveState() {
+  try {
+    localStorage.setItem(LS_KEY, JSON.stringify({
+      doc: activeDocs.size > 0 ? [...activeDocs][0] : '',
+      cat: activeCat,
+    }));
+  } catch(e) {}
+}
+
+function restoreState() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(LS_KEY) || '{}');
+    const availableDocs = [...new Set(allTerms.map(t => t.documento).filter(Boolean))];
+    const availableCats = [...new Set(allTerms.map(t => t.categoria).filter(Boolean))];
+
+    if (saved.doc && availableDocs.includes(saved.doc)) {
+      const btn = document.querySelector(`.doc-btn[data-doc]`);
+      document.querySelectorAll('.doc-btn').forEach(b => {
+        if (b.dataset.doc === saved.doc) {
+          activeDocs.add(saved.doc);
+          b.classList.add('active');
+        }
+      });
+      updateActiveDocBar();
+    }
+
+    if (saved.cat && availableCats.includes(saved.cat)) {
+      document.querySelectorAll('.filter-btn[data-cat]').forEach(b => {
+        if (b.dataset.cat === saved.cat) {
+          activeCat = saved.cat;
+          b.classList.add('active');
+          if (b.dataset.borderColor) {
+            b.style.borderColor = b.dataset.borderColor;
+            b.style.color = b.dataset.textColor;
+            b.style.background = b.dataset.bgColor;
+          }
+          // remove active do botão Todos
+          document.querySelectorAll('.filter-btn[data-cat]').forEach(x => {
+            if (x !== b) { x.classList.remove('active'); x.style.borderColor = x.style.color = x.style.background = ''; }
+          });
+        }
+      });
+    }
+  } catch(e) {}
+
+  // aplica filtros depois de tudo restaurado
+  applyFilters();
+}
+
+// --- UTILS ---
 function setStatus(state, msg) {
   document.getElementById('status-dot').className = 'status-dot ' + state;
   document.getElementById('status-text').textContent = msg;
@@ -697,10 +512,7 @@ function setStatus(state, msg) {
 
 function esc(str) {
   return String(str)
-    .replace(/&/g,'&amp;')
-    .replace(/</g,'&lt;')
-    .replace(/>/g,'&gt;')
-    .replace(/"/g,'&quot;');
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
 loadSheet();
