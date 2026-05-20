@@ -457,9 +457,6 @@ async function loadSheet() {
     buildDocFilters();
     buildCatFilters();
     renderAll();
-    const availableDocs = [...new Set(allTerms.map(t => t.documento).filter(Boolean))];
-    const availableCats = [...new Set(allTerms.map(t => t.categoria).filter(Boolean))];
-    restoreState(availableDocs, availableCats);
   } catch (e) {
     setStatus('error', 'Erro ao carregar planilha — ' + e.message);
     document.getElementById('loading-panel').classList.add('hidden');
@@ -543,6 +540,7 @@ function saveState() {
 function restoreState(availableDocs, availableCats) {
   try {
     const saved = JSON.parse(localStorage.getItem(LS_KEY) || '{}');
+    let changed = false;
 
     // restaura documento — só se ainda existir na planilha
     if (saved.doc && availableDocs.includes(saved.doc)) {
@@ -551,14 +549,34 @@ function restoreState(availableDocs, availableCats) {
         activeDocs.add(saved.doc);
         btn.classList.add('active');
         updateActiveDocBar();
+        changed = true;
       }
     }
 
     // restaura categoria — só se ainda existir na planilha
     if (saved.cat && availableCats.includes(saved.cat)) {
       const btn = document.querySelector(`.filter-btn[data-cat="${CSS.escape(saved.cat)}"]`);
-      if (btn) setCat(saved.cat, btn);
+      if (btn) {
+        // seta activeCat diretamente sem chamar applyFilters ainda
+        activeCat = saved.cat;
+        document.querySelectorAll('.filter-btn[data-cat]').forEach(b => {
+          b.classList.remove('active');
+          b.style.borderColor = '';
+          b.style.color = '';
+          b.style.background = '';
+        });
+        btn.classList.add('active');
+        if (btn.dataset.borderColor) {
+          btn.style.borderColor = btn.dataset.borderColor;
+          btn.style.color = btn.dataset.textColor;
+          btn.style.background = btn.dataset.bgColor;
+        }
+        changed = true;
+      }
     }
+
+    // aplica tudo de uma vez só no final
+    if (changed) applyFilters();
   } catch(e) {}
 }
 
@@ -645,7 +663,9 @@ function renderAll() {
     glossary.appendChild(el);
   });
 
-  applyFilters();
+  const availableDocs = [...new Set(allTerms.map(t => t.documento).filter(Boolean))];
+  const availableCats = [...new Set(allTerms.map(t => t.categoria).filter(Boolean))];
+  restoreState(availableDocs, availableCats);
 }
 
 function applyFilters() {
