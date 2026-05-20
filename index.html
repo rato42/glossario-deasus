@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Glossário · DEASUS</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,300;0,400;1,300&display=swap');
+
+  :root {
+    --bg: #F5F2EB;
+    --ink: #1A1A18;
+    --accent: #C84B2F;
+    --accent2: #2B5E4E;
+    --accent3: #3A5A8C;
+    --muted: #888880;
+    --card: #FEFCF7;
+    --border: #D8D4CB;
+    --tag-bg: #E8E3D8;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.6;
+    padding: 0 0 80px;
+  }
+
+  /* HEADER */
+  header {
+    border-bottom: 2px solid var(--ink);
+    padding: 40px 48px 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 24px;
+  }
+
+  .header-left h1 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    line-height: 1;
+    letter-spacing: -1px;
+  }
+
+  .header-left h1 span { color: var(--accent); }
+
+  .header-sub {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+    margin-top: 10px;
+    letter-spacing: 0.05em;
+  }
+
+  .header-right {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    text-align: right;
+    line-height: 1.8;
+  }
+
+  /* FAIXA DO DOCUMENTO ATIVO */
+  .active-doc-bar {
+    overflow: hidden;
+    max-height: 0;
+    background: var(--ink);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 0 48px;
+    transition: max-height 0.25s ease, padding-top 0.25s, padding-bottom 0.25s;
+  }
+
+  .active-doc-bar.visible {
+    max-height: 60px;
+    padding: 14px 48px;
+  }
+
+  .active-doc-label {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.15rem;
+    color: #fff;
+    letter-spacing: -0.5px;
+    flex: 1;
+  }
+
+  .active-doc-label span {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 400;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    margin-right: 10px;
+    vertical-align: middle;
+  }
+
+  .active-doc-clear {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.68rem;
+    color: rgba(255,255,255,0.5);
+    background: none;
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 5px 12px;
+    cursor: pointer;
+    letter-spacing: 0.06em;
+    transition: all 0.15s;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .active-doc-clear:hover { color: #fff; border-color: rgba(255,255,255,0.7); }
+
+  /* BARRA DE DOCUMENTOS */
+  .doc-bar {
+    padding: 14px 48px;
+    border-bottom: 1px solid var(--border);
+    display: none;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+    background: var(--bg);
+  }
+
+  .doc-bar.has-docs { display: flex; }
+
+  .doc-bar-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  .doc-btn {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.03em;
+    padding: 7px 16px;
+    border: 1.5px solid var(--border);
+    background: var(--card);
+    cursor: pointer;
+    color: var(--ink);
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+
+  .doc-btn:hover { border-color: var(--ink); background: var(--tag-bg); }
+  .doc-btn.active { border-color: var(--ink); background: var(--ink); color: var(--bg); }
+
+  /* TOOLBAR */
+  .toolbar {
+    padding: 18px 48px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .toolbar input {
+    flex: 1;
+    min-width: 200px;
+    border: 1.5px solid var(--border);
+    background: var(--card);
+    padding: 10px 16px;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 300;
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.15s;
+  }
+
+  .toolbar input:focus { border-color: var(--accent); }
+  .toolbar input::placeholder { color: var(--muted); }
+
+  .filter-group {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .filter-btn {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.06em;
+    padding: 6px 11px;
+    border: 1.5px solid var(--border);
+    background: transparent;
+    cursor: pointer;
+    color: var(--muted);
+    transition: all 0.15s;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .filter-btn:hover { border-color: var(--ink); color: var(--ink); }
+  .filter-btn.active { border-color: var(--ink); color: var(--ink); background: var(--tag-bg); }
+  .filter-btn.cat-estrutura.active { border-color: var(--accent); color: var(--accent); background: #fdf0ed; }
+  .filter-btn.cat-processo.active { border-color: var(--accent2); color: var(--accent2); background: #edf5f2; }
+  .filter-btn.cat-sistemas.active { border-color: var(--accent3); color: var(--accent3); background: #edf2f9; }
+
+  .divider {
+    width: 1px;
+    height: 28px;
+    background: var(--border);
+    flex-shrink: 0;
+  }
+
+  .count {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    white-space: nowrap;
+    margin-left: auto;
+  }
+
+  /* STATUS */
+  .status-bar {
+    padding: 10px 48px;
+    border-bottom: 1px solid var(--border);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .status-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--muted);
+    flex-shrink: 0;
+  }
+
+  .status-dot.ok { background: #2B5E4E; }
+  .status-dot.error { background: var(--accent); }
+  .status-dot.loading { background: #aaa; animation: pulse 1s infinite; }
+
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  /* GLOSSARY GRID */
+  .glossary {
+    padding: 0 48px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border-top: 1px solid var(--border);
+  }
+
+  .entry {
+    background: var(--card);
+    padding: 28px 28px 24px;
+    transition: background 0.1s;
+    animation: fadeIn 0.2s ease both;
+  }
+
+  @keyframes fadeIn { from { opacity:0; transform:translateY(4px); } to { opacity:1; transform:none; } }
+
+  .entry:hover { background: #fff; }
+  .entry.hidden { display: none; }
+
+  .entry-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 6px;
+  }
+
+  .entry-term {
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 1.02rem;
+    line-height: 1.2;
+    flex: 1;
+  }
+
+  .entry-abbr {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.68rem;
+    font-weight: 500;
+    background: var(--ink);
+    color: var(--bg);
+    padding: 3px 8px;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+    margin-top: 2px;
+    flex-shrink: 0;
+  }
+
+  .entry-meta {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+  }
+
+  .entry-cat {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .entry-cat.estrutura { color: var(--accent); }
+  .entry-cat.processo { color: var(--accent2); }
+  .entry-cat.sistemas { color: var(--accent3); }
+
+  .entry-doc {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    background: var(--tag-bg);
+    padding: 2px 6px;
+  }
+
+  .entry-def {
+    font-size: 0.875rem;
+    line-height: 1.65;
+    color: #3A3A36;
+  }
+
+  .entry-note {
+    margin-top: 10px;
+    padding: 10px 12px;
+    background: var(--tag-bg);
+    border-left: 2px solid var(--border);
+    font-size: 0.78rem;
+    color: var(--muted);
+    font-style: italic;
+    line-height: 1.55;
+  }
+
+  .state-panel {
+    grid-column: 1/-1;
+    padding: 60px 48px;
+    text-align: center;
+    background: var(--card);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.82rem;
+    color: var(--muted);
+    line-height: 2.2;
+  }
+
+  .state-panel.hidden { display: none; }
+
+  @media (max-width: 700px) {
+    header { padding: 24px 20px 20px; flex-direction: column; align-items: flex-start; }
+    .active-doc-bar.visible { padding: 12px 20px; }
+    .doc-bar { padding: 12px 20px; }
+    .toolbar { padding: 14px 20px; }
+    .status-bar { padding: 8px 20px; }
+    .glossary { padding: 0 20px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-left">
+    <h1>Glossário<br><span>DEASUS</span></h1>
+    <p class="header-sub">Documentos Orientadores · SES/RS</p>
+  </div>
+  <div class="header-right">
+    Para auditores<br>que preferem<br>ir direto ao ponto.
+  </div>
+</header>
+
+<!-- faixa que aparece quando um DO está selecionado -->
+<div class="active-doc-bar" id="active-doc-bar">
+  <div class="active-doc-label" id="active-doc-label"></div>
+  <button class="active-doc-clear" onclick="clearDocFilter()">Limpar filtro ×</button>
+</div>
+
+<!-- filtros de documento (aparecem só se houver > 1 documento) -->
+<div class="doc-bar" id="doc-bar">
+  <span class="doc-bar-label">Documento</span>
+  <div id="doc-filters"></div>
+</div>
+
+<!-- busca + filtros de categoria -->
+<div class="toolbar">
+  <input type="text" id="search" placeholder="Buscar termo, sigla ou palavra-chave..." oninput="applyFilters()">
+  <div class="divider"></div>
+  <div class="filter-group">
+    <button class="filter-btn active" data-cat="" onclick="setCat('', this)">Todos</button>
+    <button class="filter-btn cat-estrutura" data-cat="estrutura" onclick="setCat('estrutura', this)">Estrutura</button>
+    <button class="filter-btn cat-processo" data-cat="processo" onclick="setCat('processo', this)">Processo</button>
+    <button class="filter-btn cat-sistemas" data-cat="sistemas" onclick="setCat('sistemas', this)">Sistemas</button>
+  </div>
+  <span class="count" id="count"></span>
+</div>
+
+<div class="status-bar">
+  <div class="status-dot loading" id="status-dot"></div>
+  <span id="status-text">Carregando planilha...</span>
+</div>
+
+<div class="glossary" id="glossary">
+  <div class="state-panel" id="loading-panel">Buscando termos na planilha...</div>
+  <div class="state-panel hidden" id="error-panel">
+    Não foi possível carregar a planilha.<br>
+    Verifique se ela está compartilhada como "qualquer pessoa com o link pode visualizar".
+  </div>
+  <div class="state-panel hidden" id="empty-panel">Nenhum termo encontrado.</div>
+</div>
+
+<script>
+const SHEET_ID = '14BP2-qAtQOPuTXtsfCAkvKmAi-2290uPF1n1p8UG4hU';
+const CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=0`;
+
+let allTerms = [];
+let activeCat = '';
+let activeDocs = new Set();
+
+async function loadSheet() {
+  try {
+    const res = await fetch(CSV_URL);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const text = await res.text();
+    const rows = parseCSV(text);
+    if (rows.length < 2) throw new Error('Planilha vazia');
+
+    const headers = rows[0].map(h =>
+      h.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    );
+
+    const col = k => headers.indexOf(k);
+    const defIdx = col('definicao') !== -1 ? col('definicao') :
+                   col('defini')    !== -1 ? col('defini')    : 4;
+
+    allTerms = rows.slice(1)
+      .filter(r => r.some(c => c.trim()))
+      .map(r => ({
+        termo:     (r[col('termo')]     || '').trim(),
+        sigla:     (r[col('sigla')]     || '').trim(),
+        categoria: (r[col('categoria')] || '').trim().toLowerCase(),
+        documento: (r[col('documento')] || '').trim(),
+        definicao: (r[defIdx]           || '').trim(),
+        nota:      (r[col('nota')]      || r[5] || '').trim(),
+      }))
+      .filter(t => t.termo);
+
+    setStatus('ok', `${allTerms.length} termos carregados`);
+    buildDocFilters();
+    renderAll();
+  } catch (e) {
+    setStatus('error', 'Erro ao carregar planilha — ' + e.message);
+    document.getElementById('loading-panel').classList.add('hidden');
+    document.getElementById('error-panel').classList.remove('hidden');
+  }
+}
+
+function parseCSV(text) {
+  const rows = [];
+  const lines = text.split(/\r?\n/);
+  for (const line of lines) {
+    if (!line.trim()) continue;
+    const cols = [];
+    let cur = '', inQ = false;
+    for (let i = 0; i < line.length; i++) {
+      const c = line[i];
+      if (c === '"') {
+        if (inQ && line[i+1] === '"') { cur += '"'; i++; }
+        else inQ = !inQ;
+      } else if (c === ',' && !inQ) {
+        cols.push(cur); cur = '';
+      } else {
+        cur += c;
+      }
+    }
+    cols.push(cur);
+    rows.push(cols);
+  }
+  return rows;
+}
+
+function buildDocFilters() {
+  const docs = [...new Set(allTerms.map(t => t.documento).filter(Boolean))].sort();
+  if (docs.length <= 1) return;
+
+  const bar = document.getElementById('doc-bar');
+  bar.classList.add('has-docs');
+
+  const container = document.getElementById('doc-filters');
+  container.style.display = 'flex';
+  container.style.gap = '8px';
+  container.style.flexWrap = 'wrap';
+
+  docs.forEach(doc => {
+    const btn = document.createElement('button');
+    btn.className = 'doc-btn';
+    btn.textContent = doc;
+    btn.dataset.doc = doc;
+    btn.onclick = () => toggleDoc(doc, btn);
+    container.appendChild(btn);
+  });
+}
+
+function toggleDoc(doc, btn) {
+  if (activeDocs.has(doc)) {
+    activeDocs.delete(doc);
+    btn.classList.remove('active');
+  } else {
+    activeDocs.add(doc);
+    btn.classList.add('active');
+  }
+  updateActiveDocBar();
+  applyFilters();
+}
+
+function clearDocFilter() {
+  activeDocs.clear();
+  document.querySelectorAll('.doc-btn').forEach(b => b.classList.remove('active'));
+  updateActiveDocBar();
+  applyFilters();
+}
+
+function updateActiveDocBar() {
+  const bar = document.getElementById('active-doc-bar');
+  const label = document.getElementById('active-doc-label');
+
+  if (activeDocs.size === 0) {
+    bar.classList.remove('visible');
+    return;
+  }
+
+  const names = [...activeDocs].join(' · ');
+  label.innerHTML = `<span>Filtrando por</span>${esc(names)}`;
+  bar.classList.add('visible');
+}
+
+function setCat(cat, btn) {
+  activeCat = cat;
+  document.querySelectorAll('.filter-btn[data-cat]').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  applyFilters();
+}
+
+function renderAll() {
+  const glossary = document.getElementById('glossary');
+  glossary.querySelectorAll('.entry').forEach(e => e.remove());
+  document.getElementById('loading-panel').classList.add('hidden');
+
+  allTerms.forEach((t, i) => {
+    const el = document.createElement('div');
+    el.className = 'entry';
+    el.dataset.cat = t.categoria;
+    el.dataset.doc = t.documento;
+    el.dataset.search = [t.termo, t.sigla, t.definicao, t.nota].join(' ').toLowerCase();
+    el.style.animationDelay = `${Math.min(i * 18, 300)}ms`;
+    el.innerHTML = `
+      <div class="entry-header">
+        <span class="entry-term">${esc(t.termo)}</span>
+        ${t.sigla ? `<span class="entry-abbr">${esc(t.sigla)}</span>` : ''}
+      </div>
+      <div class="entry-meta">
+        ${t.categoria ? `<span class="entry-cat ${t.categoria}">${esc(t.categoria)}</span>` : ''}
+        ${t.documento ? `<span class="entry-doc">${esc(t.documento)}</span>` : ''}
+      </div>
+      <div class="entry-def">${esc(t.definicao)}</div>
+      ${t.nota ? `<div class="entry-note">${esc(t.nota)}</div>` : ''}
+    `;
+    glossary.appendChild(el);
+  });
+
+  applyFilters();
+}
+
+function applyFilters() {
+  const q = document.getElementById('search').value.toLowerCase().trim();
+  const entries = document.querySelectorAll('.entry');
+  let visible = 0;
+
+  entries.forEach(e => {
+    const catOk = !activeCat || e.dataset.cat === activeCat;
+    const docOk = activeDocs.size === 0 || activeDocs.has(e.dataset.doc);
+    const textOk = !q || e.dataset.search.includes(q);
+    if (catOk && docOk && textOk) {
+      e.classList.remove('hidden');
+      visible++;
+    } else {
+      e.classList.add('hidden');
+    }
+  });
+
+  document.getElementById('count').textContent = `${visible} termo${visible !== 1 ? 's' : ''}`;
+  const empty = document.getElementById('empty-panel');
+  empty.classList.toggle('hidden', visible > 0 || allTerms.length === 0);
+}
+
+function setStatus(state, msg) {
+  document.getElementById('status-dot').className = 'status-dot ' + state;
+  document.getElementById('status-text').textContent = msg;
+}
+
+function esc(str) {
+  return String(str)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;');
+}
+
+loadSheet();
+</script>
+</body>
+</html>
