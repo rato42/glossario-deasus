@@ -80,7 +80,6 @@
   .doc-bar {
     padding: 14px 48px; border-bottom: 1px solid var(--border);
     display: none; gap: 10px; align-items: center; flex-wrap: wrap;
-    justify-content: center;
   }
 
   .doc-bar.has-docs { display: flex; }
@@ -155,13 +154,14 @@
   }
 
   .active-cat-clear {
-    font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem;
-    background: none; border: 1px solid currentColor;
-    padding: 4px 10px; cursor: pointer; letter-spacing: 0.06em;
-    transition: opacity 0.15s; white-space: nowrap; flex-shrink: 0; opacity: 0.6;
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem;
+    background: transparent; border: 2px solid currentColor;
+    padding: 6px 16px; cursor: pointer; letter-spacing: 0.06em;
+    transition: all 0.15s; white-space: nowrap; flex-shrink: 0;
+    font-weight: 500;
   }
 
-  .active-cat-clear:hover { opacity: 1; }
+  .active-cat-clear:hover { background: currentColor; color: #fff; }
 
   .count {
     font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem;
