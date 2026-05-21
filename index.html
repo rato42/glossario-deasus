@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Glossário · DEASUS</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,300;0,400;1,300&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,300;0,400;1,300&display=swap');
 
   :root {
     --bg: #F5F2EB; --ink: #1A1A18; --accent: #C84B2F;
@@ -20,14 +20,15 @@
     line-height: 1.6; padding: 0 0 80px;
   }
 
+  /* HEADER */
   header {
     border-bottom: 2px solid var(--ink); padding: 40px 48px 28px;
     display: flex; justify-content: space-between; align-items: flex-end; gap: 24px;
   }
 
   .header-left h1 {
-    font-family: 'Syne', sans-serif; font-weight: 800;
-    font-size: clamp(2rem, 5vw, 3.2rem); line-height: 1; letter-spacing: -1px;
+    font-family: 'DM Serif Display', serif; font-weight: 400;
+    font-size: clamp(2.4rem, 5.5vw, 3.8rem); line-height: 1.05; letter-spacing: 0;
   }
 
   .header-left h1 span { color: var(--accent); }
@@ -42,22 +43,23 @@
     color: var(--muted); text-align: right; line-height: 1.8;
   }
 
+  /* FAIXA DOCUMENTO ATIVO */
   .active-doc-bar {
     overflow: hidden; max-height: 0; background: var(--ink);
     display: flex; align-items: center; gap: 16px; padding: 0 48px;
     transition: max-height 0.25s ease, padding-top 0.25s, padding-bottom 0.25s;
   }
 
-  .active-doc-bar.visible { max-height: 60px; padding: 14px 48px; }
+  .active-doc-bar.visible { max-height: 70px; padding: 14px 48px; }
 
   .active-doc-label {
-    font-family: 'Syne', sans-serif; font-weight: 800;
-    font-size: 1.15rem; color: #fff; letter-spacing: -0.5px; flex: 1;
+    font-family: 'DM Serif Display', serif; font-weight: 400;
+    font-size: 1.4rem; color: #fff; letter-spacing: 0; flex: 1; line-height: 1.1;
   }
 
   .active-doc-label span {
     display: inline-block; font-family: 'IBM Plex Mono', monospace;
-    font-weight: 400; font-size: 0.65rem; letter-spacing: 0.1em;
+    font-weight: 400; font-size: 0.62rem; letter-spacing: 0.1em;
     text-transform: uppercase; color: rgba(255,255,255,0.4);
     margin-right: 10px; vertical-align: middle;
   }
@@ -72,6 +74,39 @@
 
   .active-doc-clear:hover { color: #fff; border-color: rgba(255,255,255,0.7); }
 
+  /* FAIXA CATEGORIA ATIVA */
+  .active-cat-bar {
+    overflow: hidden; max-height: 0;
+    display: flex; align-items: center; gap: 16px; padding: 0 48px;
+    transition: max-height 0.25s ease, padding-top 0.25s, padding-bottom 0.25s;
+    border-bottom: 0px solid transparent;
+  }
+
+  .active-cat-bar.visible { max-height: 70px; padding: 12px 48px; border-bottom: 1px solid var(--border); }
+
+  .active-cat-label {
+    font-family: 'DM Serif Display', serif; font-weight: 400;
+    font-size: 1.2rem; flex: 1; line-height: 1.1;
+  }
+
+  .active-cat-label span {
+    display: inline-block; font-family: 'IBM Plex Mono', monospace;
+    font-weight: 400; font-size: 0.62rem; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--muted);
+    margin-right: 10px; vertical-align: middle;
+  }
+
+  .active-cat-clear {
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem;
+    background: none; border: 1.5px solid currentColor;
+    padding: 7px 18px; cursor: pointer; letter-spacing: 0.06em;
+    transition: all 0.15s; white-space: nowrap; flex-shrink: 0;
+    opacity: 0.7;
+  }
+
+  .active-cat-clear:hover { opacity: 1; }
+
+  /* BARRA DE DOCUMENTOS */
   .doc-bar {
     padding: 14px 48px; border-bottom: 1px solid var(--border);
     display: none; gap: 10px; align-items: center; flex-wrap: wrap;
@@ -95,6 +130,7 @@
   .doc-btn:hover { border-color: var(--ink); background: var(--tag-bg); }
   .doc-btn.active { border-color: var(--ink); background: var(--ink); color: var(--bg); }
 
+  /* TOOLBAR */
   .toolbar {
     padding: 18px 48px; border-bottom: 1px solid var(--border);
     display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
@@ -130,6 +166,7 @@
     color: var(--muted); white-space: nowrap; margin-left: auto;
   }
 
+  /* STATUS */
   .status-bar {
     padding: 10px 48px; border-bottom: 1px solid var(--border);
     font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem;
@@ -143,6 +180,7 @@
 
   @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
 
+  /* GRID */
   .glossary {
     padding: 0 48px;
     display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
@@ -161,7 +199,7 @@
 
   .entry-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 6px; }
 
-  .entry-term { font-family: 'Syne', sans-serif; font-weight: 600; font-size: 1.02rem; line-height: 1.2; flex: 1; }
+  .entry-term { font-family: 'DM Serif Display', serif; font-weight: 400; font-size: 1.08rem; line-height: 1.25; flex: 1; }
 
   .entry-abbr {
     font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; font-weight: 500;
@@ -171,7 +209,12 @@
 
   .entry-meta { display: flex; gap: 8px; align-items: center; margin-bottom: 10px; flex-wrap: wrap; }
 
-  .entry-cat { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; }
+  .entry-cat {
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    font-weight: 500; padding: 2px 6px;
+    border-radius: 0;
+  }
 
   .entry-doc {
     font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem;
@@ -195,7 +238,7 @@
 
   @media (max-width: 700px) {
     header { padding: 24px 20px 20px; flex-direction: column; align-items: flex-start; }
-    .active-doc-bar.visible { padding: 12px 20px; }
+    .active-doc-bar.visible, .active-cat-bar.visible { padding: 12px 20px; }
     .doc-bar, .toolbar, .status-bar { padding: 12px 20px; }
     .glossary { padding: 0 20px; }
   }
@@ -211,16 +254,25 @@
   <div class="header-right">Para auditores<br>que preferem<br>ir direto ao ponto.</div>
 </header>
 
+<!-- faixa documento ativo -->
 <div class="active-doc-bar" id="active-doc-bar">
   <div class="active-doc-label" id="active-doc-label"></div>
   <button class="active-doc-clear" onclick="clearDocFilter()">Limpar filtro ×</button>
 </div>
 
+<!-- faixa categoria ativa -->
+<div class="active-cat-bar" id="active-cat-bar">
+  <div class="active-cat-label" id="active-cat-label"></div>
+  <button class="active-cat-clear" id="active-cat-clear" onclick="clearCatFilter()">Limpar categoria ×</button>
+</div>
+
+<!-- filtros de documento -->
 <div class="doc-bar" id="doc-bar">
   <span class="doc-bar-label">Documento</span>
   <div id="doc-filters" style="display:flex;gap:8px;flex-wrap:wrap;"></div>
 </div>
 
+<!-- busca + filtros de categoria -->
 <div class="toolbar">
   <input type="text" id="search" placeholder="Buscar termo, sigla ou palavra-chave..." oninput="applyFilters()">
   <div class="divider"></div>
@@ -294,7 +346,7 @@ async function loadSheet() {
     setStatus('ok', `${allTerms.length} termos carregados`);
     buildDocFilters();
     buildCatFilters();
-    renderAll(); // renderAll chama restoreState e applyFilters no final
+    renderAll();
   } catch (e) {
     setStatus('error', 'Erro ao carregar planilha — ' + e.message);
     document.getElementById('loading-panel').classList.add('hidden');
@@ -386,7 +438,7 @@ function updateActiveDocBar() {
   const bar = document.getElementById('active-doc-bar');
   const label = document.getElementById('active-doc-label');
   if (activeDocs.size === 0) { bar.classList.remove('visible'); return; }
-  label.innerHTML = `<span>Filtrando por</span>${esc([...activeDocs].join(' · '))}`;
+  label.innerHTML = `<span>Documento</span>${esc([...activeDocs].join(' · '))}`;
   bar.classList.add('visible');
 }
 
@@ -402,8 +454,42 @@ function setCat(cat, btn) {
     btn.style.color = btn.dataset.textColor;
     btn.style.background = btn.dataset.bgColor;
   }
+  updateActiveCatBar(cat, btn);
   saveState();
   applyFilters();
+}
+
+function clearCatFilter() {
+  activeCat = '';
+  document.querySelectorAll('.filter-btn[data-cat]').forEach(b => {
+    b.classList.remove('active');
+    b.style.borderColor = b.style.color = b.style.background = '';
+  });
+  // reativa botão Todos
+  const todosBtn = document.querySelector('.filter-btn[data-cat=""]');
+  if (todosBtn) todosBtn.classList.add('active');
+  updateActiveCatBar('', null);
+  saveState();
+  applyFilters();
+}
+
+function updateActiveCatBar(cat, btn) {
+  const bar = document.getElementById('active-cat-bar');
+  const label = document.getElementById('active-cat-label');
+  const clearBtn = document.getElementById('active-cat-clear');
+
+  if (!cat) { bar.classList.remove('visible'); return; }
+
+  const c = catColorMap[cat];
+  label.innerHTML = `<span>Categoria</span>${esc(cat)}`;
+  if (c) {
+    label.style.color = c.color;
+    bar.style.background = c.bg;
+    bar.style.borderColor = c.border;
+    clearBtn.style.color = c.color;
+    clearBtn.style.borderColor = c.border;
+  }
+  bar.classList.add('visible');
 }
 
 // --- RENDER ---
@@ -420,13 +506,18 @@ function renderAll() {
     el.dataset.doc = t.documento;
     el.dataset.search = [t.termo, t.sigla, t.definicao, t.nota].join(' ').toLowerCase();
     el.style.animationDelay = `${Math.min(i * 18, 300)}ms`;
+
+    const catStyle = c
+      ? `color:${c.color}; background:${c.bg}; border: 1px solid ${c.border};`
+      : '';
+
     el.innerHTML = `
       <div class="entry-header">
         <span class="entry-term">${esc(t.termo)}</span>
         ${t.sigla ? `<span class="entry-abbr">${esc(t.sigla)}</span>` : ''}
       </div>
       <div class="entry-meta">
-        ${t.categoria ? `<span class="entry-cat" style="${c ? `color:${c.color}` : ''}">${esc(t.categoria)}</span>` : ''}
+        ${t.categoria ? `<span class="entry-cat" style="${catStyle}">${esc(t.categoria)}</span>` : ''}
         ${t.documento ? `<span class="entry-doc">${esc(t.documento)}</span>` : ''}
       </div>
       <div class="entry-def">${esc(t.definicao)}</div>
@@ -435,7 +526,6 @@ function renderAll() {
     glossary.appendChild(el);
   });
 
-  // entradas já estão no DOM — restaura estado salvo e aplica filtros
   restoreState();
 }
 
@@ -471,7 +561,6 @@ function restoreState() {
     const availableCats = [...new Set(allTerms.map(t => t.categoria).filter(Boolean))];
 
     if (saved.doc && availableDocs.includes(saved.doc)) {
-      const btn = document.querySelector(`.doc-btn[data-doc]`);
       document.querySelectorAll('.doc-btn').forEach(b => {
         if (b.dataset.doc === saved.doc) {
           activeDocs.add(saved.doc);
@@ -491,16 +580,15 @@ function restoreState() {
             b.style.color = b.dataset.textColor;
             b.style.background = b.dataset.bgColor;
           }
-          // remove active do botão Todos
           document.querySelectorAll('.filter-btn[data-cat]').forEach(x => {
             if (x !== b) { x.classList.remove('active'); x.style.borderColor = x.style.color = x.style.background = ''; }
           });
+          updateActiveCatBar(saved.cat, b);
         }
       });
     }
   } catch(e) {}
 
-  // aplica filtros depois de tudo restaurado
   applyFilters();
 }
 
