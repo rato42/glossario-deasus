@@ -16,8 +16,8 @@
 
   body {
     background: var(--bg); color: var(--ink);
-    font-family: 'DM Serif Display', serif; font-weight: 400;
-    font-size: clamp(2.4rem, 5.5vw, 3.8rem); line-height: 1.05; letter-spacing: 0;
+    font-family: 'IBM Plex Sans', sans-serif; font-weight: 300;
+    line-height: 1.6; padding: 0 0 80px;
   }
 
   header {
@@ -26,8 +26,8 @@
   }
 
   .header-left h1 {
-    font-family: 'Syne', sans-serif; font-weight: 800;
-    font-size: clamp(2rem, 5vw, 3.2rem); line-height: 1; letter-spacing: -1px;
+    font-family: 'DM Serif Display', serif; font-weight: 400;
+    font-size: clamp(2.4rem, 5.5vw, 3.8rem); line-height: 1.05; letter-spacing: 0;
   }
 
   .header-left h1 span { color: var(--accent); }
@@ -57,12 +57,12 @@
 
   .active-doc-label {
     font-family: 'DM Serif Display', serif; font-weight: 400;
-    font-size: 1.4rem; color: #fff; letter-spacing: 0; flex: 1; line-height: 1.1;
+    font-size: 1.7rem; color: #fff; letter-spacing: 0; flex: 1; line-height: 1.05;
   }
 
   .active-doc-label span {
     display: block; font-family: 'IBM Plex Mono', monospace;
-    font-weight: 400; font-size: 0.62rem; letter-spacing: 0.1em;
+    font-weight: 400; font-size: 0.62rem; letter-spacing: 0.12em;
     text-transform: uppercase; color: rgba(255,255,255,0.4);
     margin-bottom: 4px;
   }
@@ -80,6 +80,7 @@
   .doc-bar {
     padding: 14px 48px; border-bottom: 1px solid var(--border);
     display: none; gap: 10px; align-items: center; flex-wrap: wrap;
+    justify-content: center;
   }
 
   .doc-bar.has-docs { display: flex; }
@@ -198,7 +199,7 @@
 
   .entry-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 6px; }
 
-  .entry-term { font-family: 'Syne', sans-serif; font-weight: 600; font-size: 1.02rem; line-height: 1.2; flex: 1; }
+  .entry-term { font-family: 'DM Serif Display', serif; font-weight: 400; font-size: 1.08rem; line-height: 1.25; flex: 1; }
 
   .entry-abbr {
     font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; font-weight: 500;
